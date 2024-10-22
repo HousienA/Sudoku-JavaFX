@@ -1,4 +1,4 @@
-package housienariel.sudoku;
+package housienariel;
 
 public class SudokuUtilities {
 

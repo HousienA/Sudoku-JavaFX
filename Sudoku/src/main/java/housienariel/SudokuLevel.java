@@ -1,4 +1,4 @@
-package housienariel.sudoku;
+package housienariel;
 
 public enum SudokuLevel {
   EASY, MEDIUM, HARD
