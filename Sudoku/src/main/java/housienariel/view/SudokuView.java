@@ -1,4 +1,4 @@
-package housienariel;
+package housienariel.view;
 
 public class SudokuView {
 

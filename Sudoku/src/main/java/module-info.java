@@ -3,6 +3,9 @@ module housienariel.sudoku {
     requires javafx.fxml;
 
 
-    opens housienariel.sudoku to javafx.fxml;
-    exports housienariel.sudoku;
+
+    exports housienariel.model;
+    opens housienariel.model to javafx.fxml;
+    exports housienariel.view;
+    opens housienariel.view to javafx.fxml;
 }
