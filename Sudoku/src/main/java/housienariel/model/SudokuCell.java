@@ -1,20 +1,18 @@
 package housienariel.model;
 
 public class SudokuCell {
-    private final int correctValue;
-    private int userValue;
-    private final boolean isFixed;
+    private final int row;
+    private final int column;
+    private int currentValue;
+    private final boolean isInitialValue;
 
     public SudokuCell(int row, int column, int value, boolean isInitialValue) {
         this.row = row;
         this.column = column;
         this.currentValue = value;
         this.isInitialValue = isInitialValue;
-        if(value!=0){
-            this.isInitialValue = true;
-        }else if(value==0){
-            this.isInitialValue = false;
-        }
+        if(curre==0) this.isInitialValue = false;
+        else this.isInitialValue = true;
     }
 
     public boolean isInitialValue() {
