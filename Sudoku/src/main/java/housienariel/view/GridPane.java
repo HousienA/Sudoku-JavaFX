@@ -11,7 +11,7 @@ import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 
 public class GridView {
-    private final Label[][] numberTiles;  // The tiles/squares to show in the UI grid
+    private Label[][] numberTiles;  // The tiles/squares to show in the UI grid
     private final GridPane numberPane;
     private SudokuController controller;  // Reference to the controller
 
@@ -71,4 +71,19 @@ public class GridView {
 
         return root;
     }
+
+    private final EventHandler<MouseEvent> tileClickHandler = new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+            for (int row = 0; row < GRID_SIZE; row++) {
+                for (int col = 0; col < GRID_SIZE; col++) {
+                    if (event.getSource() == numberTiles[row][col]) {
+                        // Call the controller when a tile is clicked
+                        controller.cellClicked(row, col);  // Pass the row and col to the controller
+                        return;  // Exit after finding the clicked tile
+                    }
+                }
+            }
+        }
+    };
 }

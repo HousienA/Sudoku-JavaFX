@@ -1,9 +1,9 @@
 package housienariel.model;
 
 public class SudokuCell {
-    private int correctValue;
+    private final int correctValue;
     private int userValue;
-    private boolean isFixed;
+    private final boolean isFixed;
 
     public SudokuCell(int correctValue, boolean isFixed) {
         this.correctValue = correctValue;
