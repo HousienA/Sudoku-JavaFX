@@ -111,7 +111,7 @@ public class SudokuUtilities {
     }
 
     private static final String easy =
-            "000914070" +
+                    "000914070" +
                     "010000054" +
                     "040002000" +
                     "007569001" +
@@ -130,7 +130,7 @@ public class SudokuUtilities {
                     "654821739" +
                     "178493265";
     private static final String medium =
-            "300000010" +
+                    "300000010" +
                     "000050906" +
                     "050401200" +
                     "030000080" +
@@ -149,7 +149,7 @@ public class SudokuUtilities {
                     "267394158" +
                     "143825697";
     private static final String hard =
-            "030600000" +
+                    "030600000" +
                     "000010070" +
                     "080000000" +
                     "000020000" +
