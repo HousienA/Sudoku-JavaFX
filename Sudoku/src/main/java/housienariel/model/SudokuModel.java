@@ -10,15 +10,14 @@ public class SudokuModel implements Serializable {
     private SudokuCell[][] grid;
     private SudokuCell[][] correctGrid;
     private int[][][] referenceCopy;
-    private SudokuLevel level;
+    private SudokuUtilities.SudokuLevel level;
 
 
-    public SudokuModel(SudokuLevel level) {
+    public SudokuModel(SudokuUtilities.SudokuLevel level) {
         setLevel(level);
         initGrid();
         initCorrectGrid();
     }
-
 
     // Initialize the game board
     private void initGrid() {
@@ -62,12 +61,12 @@ public class SudokuModel implements Serializable {
         return grid[row][col].isInitialValue();
     }
 
-    public void setLevel(SudokuLevel level) {
+    public void setLevel(SudokuUtilities.SudokuLevel level) {
         referenceCopy = SudokuUtilities.generateSudokuMatrix(level);
         this.level = level;
     }
 
-    public SudokuLevel getLevel() { return level; }
+    public SudokuUtilities.SudokuLevel getLevel() { return level; }
 
     public String getCellString(int row, int col) {
         return Integer.toString(grid[row][col].getCurrentValue());
@@ -76,9 +75,9 @@ public class SudokuModel implements Serializable {
     public void clearCell(int row, int col) { grid[row][col].setCurrentValue(0); }
 
     public void clearGrid() {
-        for (int row = 0; row < SIZE; row++) {
-            for (int col = 0; col < SIZE; col++) {
-                grid[row][col].setCurrentValue(0);
+        for(SudokuCell[] row : grid) {
+            for(SudokuCell cell : row) {
+                cell.setCurrentValue(0);
             }
         }
     }
@@ -86,14 +85,15 @@ public class SudokuModel implements Serializable {
     public boolean isGridCorrect() {
         for (int row = 0; row < SIZE; row++) {
             for (int col = 0; col < SIZE; col++) {
-                if (grid[row][col].getCurrentValue() != correctGrid[row][col].getCurrentValue()
-                        && grid[row][col].getCurrentValue() != 0) {
+                int currentValue = grid[row][col].getCurrentValue();
+                if (currentValue != correctGrid[row][col].getCurrentValue() && currentValue != 0) {
                     return false;
                 }
             }
         }
         return true;
     }
+
 
    public void provideHint() {
     Random rand = new Random();
@@ -101,23 +101,24 @@ public class SudokuModel implements Serializable {
        do {
            row = rand.nextInt(SIZE);
            col = rand.nextInt(SIZE);
-       } while (grid[row][col].getCurrentValue() != 0 &&
-               grid[row][col].getCurrentValue() == correctGrid[row][col].getCurrentValue());
+       } while (grid[row][col].getCurrentValue() != 0 && grid[row][col].getCurrentValue() == correctGrid[row][col].getCurrentValue());
+
     grid[row][col].setCurrentValue(correctGrid[row][col].getCurrentValue());
     grid[row][col].setInitialValue();
 }
 
     // Check if the grid is solved
     public boolean isSolved() {
-        for (int row = 0; row < SIZE; row++) {
-            for (int col = 0; col < SIZE; col++) {
-                if (grid[row][col].getCurrentValue() != correctGrid[row][col].getCurrentValue()) {
-                    return false;
-                }
+        for (int i = 0; i < SIZE * SIZE; i++) {
+            int row = i / SIZE;
+            int col = i % SIZE;
+            if (grid[row][col].getCurrentValue() != correctGrid[row][col].getCurrentValue()) {
+                return false;
             }
         }
         return true;
     }
+
 
     public String getRules() {
         return "RULES:\n" +
@@ -138,5 +139,4 @@ public class SudokuModel implements Serializable {
         }
         return sb.toString();
     }
-
 }
