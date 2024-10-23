@@ -13,7 +13,6 @@ public class SudokuController {
         this.view = view;
     }
 
-    // Set the difficulty level and generate a new Sudoku board
     public void setNewGameDifficulty(int level) {
         switch (level) {
             case 1 -> currentLevel = SudokuLevel.EASY;
