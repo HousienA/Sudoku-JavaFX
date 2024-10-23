@@ -1,5 +1,6 @@
 package housienariel.view;
 
+import housienariel.model.SudokuModel;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -7,6 +8,7 @@ import javafx.stage.Stage;
 public class SudokuView extends BorderPane {
 
   private final GridView gridView;
+  private SudokuModel myBoard;
   private final SudokuController controller;
 
   public SudokuView(SudokuController controller) {
@@ -23,6 +25,15 @@ public class SudokuView extends BorderPane {
     stage.show();
   }
 
+  public void updateBoard(int row, int col) {
+    // TODO: Update the view...
+  }
+
+  public void updateBoard(SudokuModel board) {
+    this.myBoard = board;
+    // TODO: Update the view...
+  }
+
   public GridView getGridView() {
     return gridView;
   }
@@ -31,11 +42,21 @@ public class SudokuView extends BorderPane {
     return controller;
   }
 
-  public void showSuccessMessage() {
+  public void showSolvedMessage() {
     System.out.println("Congratulations! You've solved the puzzle!");
   }
 
-  public void showErrorMessage() {
+  public void showUnsolvedMessage() {
     System.out.println("Sorry, the puzzle is not yet solved.");
   }
+
+  public void showErrorMessage() {
+    System.out.println("Invalid move. Please try again.");
+  }
+
+    public void showAlert(String message) {
+        System.out.println(message);
+    }
+
+
 }

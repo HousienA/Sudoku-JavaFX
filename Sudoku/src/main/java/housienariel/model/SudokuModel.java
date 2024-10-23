@@ -125,14 +125,6 @@ public class SudokuModel implements Serializable {
     }
 
 
-    public String getRules() {
-        return "RULES:\n" +
-                "Sudoku is a number puzzle where you fill a grid.\n" +
-                "Each row, column, and block section must contain the numbers 1-9 without repetition.\n" +
-                "The goal is to complete the grid following these rules!\n" +
-                "You can use Check to see if your current grid is correct. And hint to get a free number!";
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
