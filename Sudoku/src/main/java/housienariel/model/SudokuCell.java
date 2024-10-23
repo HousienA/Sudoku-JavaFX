@@ -8,11 +8,10 @@ public class SudokuCell implements Serializable {
     private int currentValue;
     private boolean isInitialValue;
 
-    public SudokuCell(int row, int column, int value, boolean isInitialValue) {
+    public SudokuCell(int row, int column, int value) {
         this.row = row;
         this.column = column;
         this.currentValue = value;
-        this.isInitialValue = isInitialValue;
         if(value!=0){
             this.isInitialValue = true;
         }else if(value==0){
