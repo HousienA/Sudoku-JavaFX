@@ -10,7 +10,7 @@ public class SudokuView {
 
   public SudokuView(SudokuController controller) {
     this.controller = controller;
-    this.gridView = new GridView();
+    this.gridView = new GridView(controller);
   }
 
   public void start(Stage stage)
@@ -28,5 +28,13 @@ public class SudokuView {
 
   public SudokuController getController() {
     return controller;
+  }
+
+  public void showSuccessMessage() {
+    System.out.println("Congratulations! You've solved the puzzle!");
+  }
+
+  public void showErrorMessage() {
+    System.out.println("Sorry, the puzzle is not yet solved.");
   }
 }
