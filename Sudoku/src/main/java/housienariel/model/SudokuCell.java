@@ -33,7 +33,7 @@ public class SudokuCell {
         if(!this.isInitialValue)
             this.currentValue = newValue;
         else {
-            throw new IllegalStateException("This cell can't be changed");
+            throw new IllegalStateException("Immutable cell");
         }
     }
 
