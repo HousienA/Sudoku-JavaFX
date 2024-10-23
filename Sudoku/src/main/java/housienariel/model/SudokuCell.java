@@ -11,7 +11,7 @@ public class SudokuCell {
         this.column = column;
         this.currentValue = value;
         this.isInitialValue = isInitialValue;
-        if(curre==0) this.isInitialValue = false;
+        if(currentValue==0) this.isInitialValue = false;
         else this.isInitialValue = true;
     }
 
