@@ -12,11 +12,8 @@ public class SudokuCell implements Serializable {
         this.row = row;
         this.column = column;
         this.currentValue = value;
-        if(value!=0){
-            this.isInitialValue = true;
-        }else if(value==0){
-            this.isInitialValue = false;
-        }
+        if(value!=0)this.isInitialValue = true;
+        else if(value==0) this.isInitialValue = false;
     }
 
     public boolean isInitialValue() {

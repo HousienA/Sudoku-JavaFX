@@ -68,17 +68,13 @@ public class SudokuModel implements Serializable {
         this.level = level;
     }
 
-    public SudokuLevel getLevel() {
-        return level;
-    }
+    public SudokuLevel getLevel() { return level; }
 
     public String getCellString(int row, int col) {
         return Integer.toString(grid[row][col].getCurrentValue());
     }
 
-    public void clearCell(int row, int col) {
-        grid[row][col].setCurrentValue(0);
-    }
+    public void clearCell(int row, int col) { grid[row][col].setCurrentValue(0); }
 
     public void clearGrid() {
         for (int row = 0; row < SIZE; row++) {

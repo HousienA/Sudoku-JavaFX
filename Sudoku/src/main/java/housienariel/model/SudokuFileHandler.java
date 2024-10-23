@@ -4,6 +4,10 @@ import java.io.*;
 
 public class SudokuFileHandler {
     public static void saveToFile(SudokuModel model, File file) throws IOException {
+        if (file == null) {
+            throw new IllegalArgumentException("File cannot be null.");
+        }
+
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
             oos.writeObject(model);
         }
