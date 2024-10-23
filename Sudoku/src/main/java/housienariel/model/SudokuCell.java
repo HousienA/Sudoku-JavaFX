@@ -1,31 +1,44 @@
 package housienariel.model;
 
-public class SudokuCell {
-    private final int correctValue;
-    private int userValue;
-    private final boolean isFixed;
+import java.io.Serializable;
 
-    public SudokuCell(int correctValue, boolean isFixed) {
-        this.correctValue = correctValue;
-        this.isFixed = isFixed;
-        this.userValue = isFixed ? correctValue : 0;
-    }
+public class SudokuCell implements Serializable {
+    private final int row;
+    private final int column;
+    private int currentValue;
+    private boolean isInitialValue;
 
-    public int getCorrectValue() {
-        return correctValue;
-    }
-
-    public int getUserValue() {
-        return userValue;
-    }
-
-    public void setUserValue(int userValue) {
-        if (!isFixed) {
-            this.userValue = userValue;
+    public SudokuCell(int row, int column, int value, boolean isInitialValue) {
+        this.row = row;
+        this.column = column;
+        this.currentValue = value;
+        this.isInitialValue = isInitialValue;
+        if(value!=0){
+            this.isInitialValue = true;
+        }else if(value==0){
+            this.isInitialValue = false;
         }
     }
 
-    public boolean isFixed() {
-        return isFixed;
+    public boolean isInitialValue() {
+        return this.isInitialValue;
     }
+
+    public void setInitialValue(){
+        isInitialValue = true;
+    }
+
+    public int getCurrentValue() {
+        return currentValue;
+    }
+
+    public void setCurrentValue(int newValue) {
+        if(!this.isInitialValue)
+            this.currentValue = newValue;
+        else {
+            throw new IllegalStateException("This cell can't be changed");
+        }
+    }
+
+
 }
