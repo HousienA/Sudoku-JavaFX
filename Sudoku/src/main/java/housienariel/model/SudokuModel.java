@@ -40,7 +40,6 @@ public class SudokuModel implements Serializable {
         }
     }
 
-
     public int[][] getGridCopy() {
         int[][] copy = new int[SIZE][SIZE];
         for (int i = 0; i < SIZE; i++) {

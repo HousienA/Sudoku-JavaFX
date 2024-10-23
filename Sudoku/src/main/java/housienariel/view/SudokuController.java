@@ -1,5 +1,6 @@
 package housienariel.view;
 
+import housienariel.model.SudokuCell;
 import housienariel.model.SudokuLevel;
 import housienariel.model.SudokuUtilities;
 
@@ -9,7 +10,7 @@ public class SudokuController {
     private final SudokuView view;
     private SudokuLevel currentLevel;
 
-    public SudokuController(SudokuView view) {
+    public SudokuController(SudokuCell board, SudokuView view) {
         this.view = view;
     }
 
@@ -25,7 +26,7 @@ public class SudokuController {
     }
 
     public void saveGame() {
-      
+
     }
 
     public void loadGame() {

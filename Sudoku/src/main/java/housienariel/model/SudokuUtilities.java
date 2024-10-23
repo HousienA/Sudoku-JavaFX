@@ -4,6 +4,7 @@ import java.util.Random;
 
 public class SudokuUtilities {
 
+    public enum SudokuLevel {EASY, MEDIUM, HARD}
     public static final int GRID_SIZE = 9;
     public static final int SECTIONS_PER_ROW = 3;
     public static final int SECTION_SIZE = 3;
@@ -36,7 +37,6 @@ public class SudokuUtilities {
             case 1 -> matrix = flipHorizontally(matrix);
             case 2 -> matrix = flipVertically(matrix);
         }
-
         return matrix;
     }
     /**

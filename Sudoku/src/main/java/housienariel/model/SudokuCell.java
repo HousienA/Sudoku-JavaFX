@@ -12,8 +12,8 @@ public class SudokuCell implements Serializable {
         this.row = row;
         this.column = column;
         this.currentValue = value;
-        if(value!=0)this.isInitialValue = true;
-        else if(value==0) this.isInitialValue = false;
+        if(value == 0) this.isInitialValue = false;
+        else this.isInitialValue = true;
     }
 
     public boolean isInitialValue() {
@@ -21,20 +21,15 @@ public class SudokuCell implements Serializable {
     }
 
     public void setInitialValue(){
-        isInitialValue = true;
+        this.isInitialValue = true;
     }
 
     public int getCurrentValue() {
-        return currentValue;
+        return this.currentValue;
     }
 
     public void setCurrentValue(int newValue) {
-        if(!this.isInitialValue)
-            this.currentValue = newValue;
-        else {
-            throw new IllegalStateException("This cell can't be changed");
-        }
+        if(!this.isInitialValue) this.currentValue = newValue;
+        else throw new IllegalStateException("This is is immutable");
     }
-
-
 }
