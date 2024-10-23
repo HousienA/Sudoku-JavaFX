@@ -22,22 +22,23 @@ public class SudokuModel implements Serializable {
     // Initialize the game board
     private void initGrid() {
         grid = new SudokuCell[SIZE][SIZE];
-        for (int row = 0; row < SIZE; row++) {
-            for (int col = 0; col < SIZE; col++) {
-                grid[row][col] = new SudokuCell(row, col, referenceCopy[row][col][0]);
-            }
+        for (int i = 0; i < SIZE * SIZE; i++) {
+            int row = i / SIZE;
+            int col = i % SIZE;
+            grid[row][col] = new SudokuCell(row, col, referenceCopy[row][col][0]);
         }
     }
 
     // Initialize the correct solution board
     private void initCorrectGrid() {
         correctGrid = new SudokuCell[SIZE][SIZE];
-        for (int row = 0; row < SIZE; row++) {
-            for (int col = 0; col < SIZE; col++) {
-                correctGrid[row][col] = new SudokuCell(row, col, referenceCopy[row][col][1]);
-            }
+        for (int i = 0; i < SIZE * SIZE; i++) {
+            int row = i / SIZE;
+            int col = i % SIZE;
+            correctGrid[row][col] = new SudokuCell(row, col, referenceCopy[row][col][1]);
         }
     }
+
 
     public int[][] getGridCopy() {
         int[][] copy = new int[SIZE][SIZE];
