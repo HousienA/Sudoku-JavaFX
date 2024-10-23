@@ -34,6 +34,4 @@ public class SudokuCell {
             throw new IllegalStateException("Immutable cell");
         }
     }
-
-
 }
