@@ -2,17 +2,19 @@ package housienariel.view;
 
 public class SudokuController {
 
-  void setNewGameDifficulty(int level) { };
+  void setNewGameDifficulty(int level) {
+    
+  }
 
-  void saveGame() { };
+  void saveGame() { }
 
-  void loadGame() { };
+  void loadGame() { }
 
-  void numberSelected(int number) { };
+  void numberSelected(int number) { }
 
-  void cellClicked(int row, int col) { };
+  void cellClicked(int row, int col) { }
 
-  void checkBoard() { };
+  void checkBoard() { }
 
-  void hintRequested() { };
+  void hintRequested() { }
 }
