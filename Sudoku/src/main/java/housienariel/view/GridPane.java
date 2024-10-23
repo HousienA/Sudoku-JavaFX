@@ -7,10 +7,13 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 import static housienariel.model.SudokuUtilities.GRID_SIZE;
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
 
 public class GridView {
-    private Label[][] numberTiles;  // The tiles/squares to show in the UI grid
-    private GridPane numberPane;
+    private final Label[][] numberTiles;  // The tiles/squares to show in the UI grid
+    private final GridPane numberPane;
+    private SudokuController controller;  // Reference to the controller
 
     public GridView() {
         numberTiles = new Label[GRID_SIZE][GRID_SIZE];
@@ -24,7 +27,7 @@ public class GridView {
     }
 
     // Initialize number tiles, only called by the constructor
-    private final void initNumberTiles() {
+    private void initNumberTiles() {
         Font font = Font.font("Monospaced", FontWeight.NORMAL, 20);
 
         for (int row = 0; row < GRID_SIZE; row++) {
@@ -42,7 +45,7 @@ public class GridView {
     }
 
     // Create the grid pane and arrange number tiles
-    private final GridPane makeNumberPane() {
+    private GridPane makeNumberPane() {
         GridPane root = new GridPane();
         root.setStyle("-fx-border-color: black; -fx-border-width: 1.0px; -fx-background-color: white;");
 

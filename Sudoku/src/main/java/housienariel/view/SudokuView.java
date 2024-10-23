@@ -29,6 +29,4 @@ public class SudokuView {
   public SudokuController getController() {
     return controller;
   }
-
-
 }

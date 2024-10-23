@@ -3,7 +3,7 @@ package housienariel.model;
 import java.io.Serializable;
 
 public class SudokuModel implements Serializable {
-    private SudokuCell[][] grid;
+    private final SudokuCell[][] grid;
 
     public SudokuModel(SudokuLevel level) {
         int[][][] initialGrid = SudokuUtilities.generateSudokuMatrix(level);
