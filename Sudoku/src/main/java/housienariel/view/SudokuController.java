@@ -1,28 +1,34 @@
 package housienariel.view;
 
 import housienariel.model.SudokuCell;
-import housienariel.model.SudokuLevel;
+import housienariel.model.SudokuModel;
 import housienariel.model.SudokuUtilities;
+import javafx.stage.FileChooser;
 
 public class SudokuController {
 
-    private int[][][] myBoard;
+    private SudokuModel myBoard;
     private final SudokuView view;
-    private SudokuLevel currentLevel;
+    private int numberPicked;
+    private FileChooser fileChooser;
+    private SudokuUtilities.SudokuLevel currentLevel;
 
-    public SudokuController(SudokuCell board, SudokuView view) {
+    public SudokuController(SudokuModel board, SudokuView view) {
+        //this.myBoard = board;
         this.view = view;
+        fileChooser = new FileChooser();
+
     }
 
     public void setNewGameDifficulty(int level) {
         switch (level) {
-            case 1 -> currentLevel = SudokuLevel.EASY;
-            case 2 -> currentLevel = SudokuLevel.MEDIUM;
-            case 3 -> currentLevel = SudokuLevel.HARD;
-            default -> currentLevel = SudokuLevel.MEDIUM;
+            case 1 -> currentLevel = SudokuUtilities.SudokuLevel.EASY;
+            case 2 -> currentLevel = SudokuUtilities.SudokuLevel.MEDIUM;
+            case 3 -> currentLevel = SudokuUtilities.SudokuLevel.HARD;
+            default -> {}
         }
 
-        myBoard = SudokuUtilities.generateSudokuMatrix(currentLevel);
+        myBoard = new SudokuModel(currentLevel);
     }
 
     public void saveGame() {
@@ -47,31 +53,18 @@ public class SudokuController {
 
     public void hintRequested() {
 
+        if(!myBoard.isSolved()) myBoard.provideHint();
+        //else view.showAlert("The board is already solved!");
+
     }
 
     private boolean isMoveValid(int row, int col) {
-        return myBoard[row][col][0] == 0;
+        return myBoard.isMoveValid(row, col);
     }
 
     private boolean isBoardCorrect() {
-        for (int row = 0; row < SudokuUtilities.GRID_SIZE; row++) {
-            for (int col = 0; col < SudokuUtilities.GRID_SIZE; col++) {
-                if (myBoard[row][col][0] != myBoard[row][col][1]) {
-                    return false;
-                }
-            }
-        }
-        return true;
+        return myBoard.isGridCorrect();
     }
 
-    private int[] getHint() {
-        for (int row = 0; row < SudokuUtilities.GRID_SIZE; row++) {
-            for (int col = 0; col < SudokuUtilities.GRID_SIZE; col++) {
-                if (myBoard[row][col][0] == 0) {
-                    return new int[]{row, col};
-                }
-            }
-        }
-        return null;
-    }
+
 }

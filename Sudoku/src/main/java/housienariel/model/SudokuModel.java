@@ -120,6 +120,10 @@ public class SudokuModel implements Serializable {
         return true;
     }
 
+    public boolean isMoveValid(int row, int col) {
+        return grid[row][col].getCurrentValue() == 0;
+    }
+
 
     public String getRules() {
         return "RULES:\n" +

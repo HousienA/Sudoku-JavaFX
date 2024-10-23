@@ -1,9 +1,10 @@
 package housienariel.view;
 
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-public class SudokuView {
+public class SudokuView extends BorderPane {
 
   private final GridView gridView;
   private final SudokuController controller;
