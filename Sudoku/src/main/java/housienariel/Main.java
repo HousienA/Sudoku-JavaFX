@@ -1,13 +1,11 @@
 package housienariel;
 
-import housienariel.model.*;
-import housienariel.view.*;
+import housienariel.model.SudokuModel;
+import housienariel.model.SudokuUtilities;
+import housienariel.view.SudokuView;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.stage.Stage;
-
-import java.io.File;
 
 public class Main extends Application {
 
