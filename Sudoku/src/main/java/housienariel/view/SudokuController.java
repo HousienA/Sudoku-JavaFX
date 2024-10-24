@@ -74,31 +74,44 @@ public class SudokuController {
         this.numberSlected = number;
     }
 
-    public void cellClicked(int row, int col) {
-        try {
-            if(numberSlected >= 0 && numberSlected < 9) {
+public void cellClicked(int row, int col) {
+    try {
+        if (isMoveValid(row, col)) {
+            if (numberSlected >= 0 && numberSlected < 9) {
                 myBoard.setCellValue(row, col, numberSlected + 1);
                 view.updateBoard(row, col);
             }
-            if(numberSlected == 9) {
+            if (numberSlected == 9) {
                 myBoard.clearCell(row, col);
                 view.updateBoard(row, col);
             }
-        } catch(IllegalStateException invalidMove) { view.showErrorMessage(); }
-
+        } else {
+            view.showErrorMessage();
+        }
+    } catch (IllegalStateException invalidMove) {
+        view.showErrorMessage();
     }
+    if (myBoard.isSolved()) {
+        view.showSolvedMessage();
+    }
+}
 
     public void checkBoard()
     {
-      if(isBoardCorrect()) view.showSolvedMessage();
-      else view.showErrorMessage();
+      if(!myBoard.isSolved()) {
+          if (isBoardCorrect()) view.showAlert("Placement Correct So Far.");
+          else view.showAlert("Placement is INCORRECT!");
+      } else view.showSolvedMessage();
     }
 
     public void hintRequested() {
-
         if(!myBoard.isSolved()) myBoard.provideHint();
         else view.showSolvedMessage();
+    }
 
+    public void clearBoard() {
+        myBoard.clearGrid();
+        view.updateBoard(myBoard);
     }
 
     private boolean isMoveValid(int row, int col) {
