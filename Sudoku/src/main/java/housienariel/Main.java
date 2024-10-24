@@ -18,10 +18,10 @@ public class Main extends Application {
         SudokuView view = new SudokuView(board);
 
 
-        Scene scene = new Scene(view, 550, 450);
+        Scene scene = new Scene(view, 800, 800);
         primaryStage.setScene(scene);
         primaryStage.sizeToScene();
-        primaryStage.setResizable(false);
+        primaryStage.setResizable(true);
 
         // Set window title and show the stage
         primaryStage.setTitle("Sudoku Game");
