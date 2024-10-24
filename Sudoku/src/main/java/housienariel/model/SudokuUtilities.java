@@ -81,13 +81,22 @@ public class SudokuUtilities {
         return values;
     }
 
-
+    /**
+     * Convert a character to an integer in the range 0-9.
+     * @param ch the character to convert
+     * @return the integer value of the character
+     */
     private static int convertCharToSudokuInt(char ch) {
         if (ch < '0' || ch > '9') throw new IllegalArgumentException("character " +
                 ch);
         return ch - '0';
     }
 
+    /**
+     * Flip the matrix horizontally.
+     * @param matrix the matrix to flip
+     * @return the flipped matrix
+     */
     private static int[][][] flipHorizontally(int[][][] matrix) {
         int[][][] flipped = new int[GRID_SIZE][GRID_SIZE][2];
         for (int row = 0; row < GRID_SIZE; row++) {
@@ -99,6 +108,11 @@ public class SudokuUtilities {
         return flipped;
     }
 
+    /**
+     * Flip the matrix vertically.
+     * @param matrix the matrix to flip
+     * @return the flipped matrix
+     */
     private static int[][][] flipVertically(int[][][] matrix) {
         int[][][] flipped = new int[GRID_SIZE][GRID_SIZE][2];
         for (int row = 0; row < GRID_SIZE; row++) {

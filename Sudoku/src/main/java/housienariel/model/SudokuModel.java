@@ -13,13 +13,20 @@ public class SudokuModel implements Serializable {
     private SudokuUtilities.SudokuLevel level;
 
 
+    /**
+     * Constructor, initializes a new sudoku game with solution grid.
+     * @param level represents the difficulty of the game.
+     */
     public SudokuModel(SudokuUtilities.SudokuLevel level) {
         setLevel(level);
         initGrid();
         initCorrectGrid();
     }
 
-    // Initialize the game board
+    /**
+     * Initialize the game board with the initial values.
+     * The initial values are set from the referenceCopy.
+     */
     private void initGrid() {
         grid = new SudokuCell[SIZE][SIZE];
         for (int i = 0; i < SIZE * SIZE; i++) {
@@ -29,7 +36,10 @@ public class SudokuModel implements Serializable {
         }
     }
 
-    // Initialize the correct solution board
+    /**
+     * Initialize the correct grid with the solution values.
+     * The solution values are set from the referenceCopy.
+     */
     private void initCorrectGrid() {
         correctGrid = new SudokuCell[SIZE][SIZE];
         for (int i = 0; i < SIZE * SIZE; i++) {
@@ -40,6 +50,10 @@ public class SudokuModel implements Serializable {
     }
 
 
+    /**
+     * Get a copy of the current grid.
+     * @return a copy of the current grid.
+     */
     public int[][] getGridCopy() {
         int[][] copy = new int[SIZE][SIZE];
         for (int i = 0; i < SIZE; i++) {
@@ -50,22 +64,43 @@ public class SudokuModel implements Serializable {
         return copy;
     }
 
+    /**
+     * @return the grid.
+     */
     public SudokuCell[][] getGrid() {
         return grid;
     }
 
+    /**
+     * @param row the row of the cell.
+     * @param col the column of the cell.
+     * @param value the value to set.
+     */
     public void setCellValue(int row, int col, int value) {
         grid[row][col].setCurrentValue(value);
     }
 
+    /**
+     * @param row the row of the cell.
+     * @param col the column of the cell.
+     * @return the value of the cell.
+     */
     public int getCellValue(int row, int col) {
         return grid[row][col].getCurrentValue();
     }
 
+    /**
+     * @param row the row of the cell.
+     * @param col the column of the cell.
+     * @return true if the cell is an initial value, false otherwise.
+     */
     public boolean isInitialValue(int row, int col) {
         return grid[row][col].isInitialValue();
     }
 
+    /**
+     * @param level
+     */
     public void setLevel(SudokuUtilities.SudokuLevel level) {
         referenceCopy = SudokuUtilities.generateSudokuMatrix(level);
         this.level = level;
@@ -73,12 +108,26 @@ public class SudokuModel implements Serializable {
 
     public SudokuUtilities.SudokuLevel getLevel() { return level; }
 
+
+    /**
+     * @param row the row of the cell.
+     * @param col the column of the cell.
+     * @return the value of the cell as a string.
+     */
     public String getCellString(int row, int col) {
         return Integer.toString(grid[row][col].getCurrentValue());
     }
 
+    /**
+     * @param row the row of the cell.
+     * @param col the column of the cell.
+     * @return the value of the cell as a string.
+     */
     public void clearCell(int row, int col) { grid[row][col].setCurrentValue(0); }
 
+    /**
+     * Clear the grid of all values if they are not initial values.
+     */
     public void clearGrid() {
         for(SudokuCell[] row : grid) {
             for(SudokuCell cell : row) {
@@ -88,7 +137,11 @@ public class SudokuModel implements Serializable {
             }
         }
     }
-    // Check if the current grid is correct so far
+
+    /**
+     * Check if the values in the grid is correct.
+     * @return true if the grid is correct, false otherwise.
+     */
     public boolean isGridCorrect() {
         for (int row = 0; row < SIZE; row++) {
             for (int col = 0; col < SIZE; col++) {
@@ -101,7 +154,10 @@ public class SudokuModel implements Serializable {
         return true;
     }
 
-
+    /**
+     * Provide a hint to the player
+     * setting a random cell to the correct value and set it as initialValue.
+     */
    public void provideHint() {
     Random rand = new Random();
     int row, col;
@@ -114,7 +170,10 @@ public class SudokuModel implements Serializable {
     grid[row][col].setInitialValue();
 }
 
-    // Check if the grid is solved
+    /**
+     * Check if the game is solved.
+     * @return true if the game is solved, false otherwise.
+     */
     public boolean isSolved() {
         for (int i = 0; i < SIZE * SIZE; i++) {
             int row = i / SIZE;
@@ -126,8 +185,14 @@ public class SudokuModel implements Serializable {
         return true;
     }
 
+    /**
+     * Check if a move is valid.
+     * @param row the row of the cell.
+     * @param col the column of the cell.
+     * @return true if the move is valid as in th cell doesn't have an initialValue.
+     */
     public boolean isMoveValid(int row, int col) {
-        return grid[row][col].isInitialValue() == false;
+        return !grid[row][col].isInitialValue();
     }
 
 
