@@ -58,6 +58,10 @@ public class SudokuModel implements Serializable {
         grid[row][col].setCurrentValue(value);
     }
 
+    public int getCellValue(int row, int col) {
+        return grid[row][col].getCurrentValue();
+    }
+
     public boolean isInitialValue(int row, int col) {
         return grid[row][col].isInitialValue();
     }

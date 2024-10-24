@@ -70,39 +70,43 @@ public class SudokuController {
 
     }
 
+    public void handleNewGame() {
+        myBoard = new SudokuModel(currentLevel);
+        view.updateBoard(myBoard);
+    }
+
     public void setNumberSelected(int number) {
         this.numberSlected = number;
     }
 
-public void cellClicked(int row, int col) {
-    try {
-        if (isMoveValid(row, col)) {
-            if (numberSlected >= 0 && numberSlected < 9) {
-                myBoard.setCellValue(row, col, numberSlected + 1);
-                view.updateBoard(row, col);
+    public void cellClicked(int row, int col) {
+        try {
+            if (isMoveValid(row, col)) {
+                if (numberSlected >= 0 && numberSlected < 9) {
+                    myBoard.setCellValue(row, col, numberSlected + 1);
+                    view.updateBoard(row, col);
+                }
+                if (numberSlected == 9) {
+                    myBoard.clearCell(row, col);
+                    view.updateBoard(row, col);
+                }
+            } else {
+                view.showErrorMessage();
             }
-            if (numberSlected == 9) {
-                myBoard.clearCell(row, col);
-                view.updateBoard(row, col);
-            }
-        } else {
+        } catch (IllegalStateException invalidMove) {
             view.showErrorMessage();
         }
-    } catch (IllegalStateException invalidMove) {
-        view.showErrorMessage();
+        if (myBoard.isSolved()) {
+            view.showSolvedMessage();
+        }
     }
-    if (myBoard.isSolved()) {
-        view.showSolvedMessage();
-    }
-}
 
-    public void checkBoard()
-    {
-      if(!myBoard.isSolved()) {
-          if (isBoardCorrect()) view.showAlert("Placement Correct So Far.");
-          else view.showAlert("Placement is INCORRECT!");
-      } else view.showSolvedMessage();
-    }
+    public String checkBoard() {
+    if (!myBoard.isSolved()) {
+        if (isBoardCorrect()) return "Placement Correct So Far.";
+        else return "Placement is INCORRECT!";
+    } else return "Solved";
+}
 
     public void hintRequested() {
         if(!myBoard.isSolved()) myBoard.provideHint();
@@ -123,11 +127,12 @@ public void cellClicked(int row, int col) {
     }
 
     public String rules() {
-        return "RULES:\n" +
-                "Sudoku is a number puzzle where you fill a grid.\n" +
-                "Each row, column, and block section must contain the numbers 1-9 without repetition.\n" +
-                "The goal is to complete the grid following these rules!\n" +
-                "You can use Check to see if your current grid is correct. And hint to get a free number!";
+        return """
+                RULES:
+                Sudoku is a number puzzle where you fill a grid.
+                Each row, column, and block section must contain the numbers 1-9 without repetition.
+                The goal is to complete the grid following these rules!
+                You can use Check to see if your current grid is correct. And hint to get a free number!""";
     }
 
 
