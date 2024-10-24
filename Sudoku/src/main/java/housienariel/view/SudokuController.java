@@ -1,27 +1,26 @@
 package housienariel.view;
 
-import housienariel.model.SudokuCell;
+import java.io.File;
+
+import housienariel.model.SudokuFileHandler;
 import housienariel.model.SudokuModel;
 import housienariel.model.SudokuUtilities;
-import housienariel.model.SudokuFileHandler;
-
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import java.io.File;
 
 public class SudokuController {
 
     private SudokuModel myBoard;
     private final SudokuView view;
-    private int numberSlected;
-    private FileChooser fileChooser;
+    private int numberSelected;
+    private final FileChooser fileChooser;
     private SudokuUtilities.SudokuLevel currentLevel;
 
     public SudokuController(SudokuModel board, SudokuView view) {
         this.myBoard = board;
         this.view = view;
-        fileChooser = new FileChooser();
-
+        this.fileChooser = new FileChooser();
+        this.currentLevel = SudokuUtilities.SudokuLevel.EASY;  // Default level
     }
 
     public void setNewGameDifficulty(int level) {
@@ -33,18 +32,17 @@ public class SudokuController {
         }
 
         myBoard = new SudokuModel(currentLevel);
+        view.updateBoard(myBoard);
     }
 
     public void saveGame() {
         try {
-            fileChooser = new FileChooser();
-            fileChooser.setInitialDirectory(new File(System.getProperty("user.home" + "/Downloads")));
+            fileChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Downloads"));
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Sudoku Files", "*.sudoku"));
             File file = fileChooser.showSaveDialog(new Stage());
 
-            if(file != null) {
-                SudokuFileHandler.saveToFile(myBoard, file);
-            }
+            if (file != null) SudokuFileHandler.saveToFile(myBoard, file);
+
         } catch (Exception savingError) {
             view.showAlert("Error saving file");
             throw new RuntimeException(savingError);
@@ -52,14 +50,12 @@ public class SudokuController {
     }
 
     public void loadGame() {
-
         try {
-            fileChooser = new FileChooser();
-            fileChooser.setInitialDirectory(new File(System.getProperty("user.home" + "/Downloads")));
+            fileChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Downloads"));
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Sudoku Files", "*.sudoku"));
             File file = fileChooser.showOpenDialog(new Stage());
 
-            if(file != null) {
+            if (file != null) {
                 this.myBoard = SudokuFileHandler.loadFromFile(file);
                 view.updateBoard(myBoard);
             }
@@ -67,7 +63,6 @@ public class SudokuController {
             view.showAlert("Error loading file");
             throw new RuntimeException(loadingError);
         }
-
     }
 
     public void handleNewGame() {
@@ -76,41 +71,42 @@ public class SudokuController {
     }
 
     public void setNumberSelected(int number) {
-        this.numberSlected = number;
+        this.numberSelected = number;
     }
 
     public void cellClicked(int row, int col) {
         try {
             if (isMoveValid(row, col)) {
-                if (numberSlected >= 0 && numberSlected < 9) {
-                    myBoard.setCellValue(row, col, numberSlected + 1);
+                if (numberSelected >= 0 && numberSelected < 9) {
+                    myBoard.setCellValue(row, col, numberSelected + 1);
                     view.updateBoard(row, col);
                 }
-                if (numberSlected == 9) {
+                if (numberSelected == 9) {
                     myBoard.clearCell(row, col);
                     view.updateBoard(row, col);
                 }
-            } else {
-                view.showErrorMessage();
-            }
+            } else view.showAlert("Invalid Move");
         } catch (IllegalStateException invalidMove) {
-            view.showErrorMessage();
+            view.showAlert("Invalid Move");
         }
         if (myBoard.isSolved()) {
-            view.showSolvedMessage();
+            view.showAlert("Congratulations! You've solved the puzzle.");
         }
     }
 
     public String checkBoard() {
-    if (!myBoard.isSolved()) {
-        if (isBoardCorrect()) return "Placement Correct So Far.";
-        else return "Placement is INCORRECT!";
-    } else return "Solved";
-}
+        if (!myBoard.isSolved()) {
+            if (isBoardCorrect()) return "Placement is correct so far.";
+            else return "Placement is incorrect!";
+        } else return "The puzzle is solved!";
+    }
 
     public void hintRequested() {
-        if(!myBoard.isSolved()) myBoard.provideHint();
-        else view.showSolvedMessage();
+        if (!myBoard.isSolved()) {
+            myBoard.provideHint();
+            view.updateBoard(myBoard);
+        } else view.showAlert("The puzzle is already solved!");
+
     }
 
     public void clearBoard() {
@@ -118,13 +114,9 @@ public class SudokuController {
         view.updateBoard(myBoard);
     }
 
-    private boolean isMoveValid(int row, int col) {
-        return myBoard.isMoveValid(row, col);
-    }
+    private boolean isMoveValid(int row, int col) { return myBoard.isMoveValid(row, col); }
 
-    private boolean isBoardCorrect() {
-        return myBoard.isGridCorrect();
-    }
+    private boolean isBoardCorrect() { return myBoard.isGridCorrect(); }
 
     public String rules() {
         return """
@@ -132,8 +124,6 @@ public class SudokuController {
                 Sudoku is a number puzzle where you fill a grid.
                 Each row, column, and block section must contain the numbers 1-9 without repetition.
                 The goal is to complete the grid following these rules!
-                You can use Check to see if your current grid is correct. And hint to get a free number!""";
+                You can use Check to see if your current grid is correct and Hint to get a free number!""";
     }
-
-
 }
