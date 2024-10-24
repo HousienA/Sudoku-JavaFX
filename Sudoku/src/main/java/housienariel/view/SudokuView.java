@@ -1,6 +1,6 @@
 package housienariel.view;
 
-import housienariel.model.Board;
+import housienariel.model.SudokuModel;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -26,13 +26,13 @@ public class SudokuView extends BorderPane {
     private final Alert alert = new Alert(Alert.AlertType.INFORMATION);
     private Label[][] cellGrid;
     private TilePane numberPane;
-    private Board board;
+    private SudokuModel board;
     private Button hintButton;
     private Button checkButton;
     private final Button[] buttons = new Button[10];
     private final SudokuController controller;
 
-    public SudokuView(Board board) {
+    public SudokuView(SudokuModel board) {
         super(); // Creates BorderPane
         this.controller = new SudokuController(board, this);
         this.board = board;
@@ -42,6 +42,7 @@ public class SudokuView extends BorderPane {
         addButtonEventHandlers();
     }
 
+    // Updates a specific cell based on user interaction
     public void updateBoard(int row, int col) {
         Font font = Font.font("Monospaced", FontWeight.NORMAL, 20);
         createClickableCell(row, col, font);
@@ -49,11 +50,13 @@ public class SudokuView extends BorderPane {
         this.setCenter(numberPane);
     }
 
-    public void updateBoard(Board board) {
+    // Updates the entire board
+    public void updateBoard(SudokuModel board) {
         this.board = board;
         gridSetup();
     }
 
+    // Creates the sudoku grid and handles initialization
     private void gridSetup() {
         cellGrid = new Label[GRID_SIZE][GRID_SIZE];
         createSudokuGrid();
@@ -90,13 +93,7 @@ public class SudokuView extends BorderPane {
         cell.setAlignment(Pos.CENTER);
         cell.setStyle("-fx-border-color: black; -fx-border-width: 0.9px;");
 
-        EventHandler<MouseEvent> tileClickHandler = new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                controller.handleAddCell(row, col);
-            }
-        };
-        cell.setOnMouseClicked(tileClickHandler);
+        cell.setOnMouseClicked(event -> controller.cellClicked(row, col));
         cellGrid[row][col] = cell;
     }
 
@@ -156,8 +153,8 @@ public class SudokuView extends BorderPane {
         MenuItem saveItem = new MenuItem("Save game");
 
         exitItem.setOnAction(event -> Platform.exit());
-        loadItem.setOnAction(event -> controller.handleLoadGame());
-        saveItem.setOnAction(event -> controller.handleSaveGame());
+        loadItem.setOnAction(event -> controller.loadGame());
+        saveItem.setOnAction(event -> controller.saveGame());
 
         MenuItem startNewGame = new MenuItem("Start new game");
         Menu pickDifficulty = new Menu("Choose difficulty");
@@ -166,9 +163,9 @@ public class SudokuView extends BorderPane {
         MenuItem hard = new MenuItem("Hard");
 
         pickDifficulty.getItems().addAll(easy, medium, hard);
-        easy.setOnAction(event -> controller.handleDifficulty("EASY"));
-        medium.setOnAction(event -> controller.handleDifficulty("MEDIUM"));
-        hard.setOnAction(event -> controller.handleDifficulty("HARD"));
+        easy.setOnAction(event -> controller.setNewGameDifficulty(1));
+        medium.setOnAction(event -> controller.setNewGameDifficulty(2));
+        hard.setOnAction(event -> controller.setNewGameDifficulty(3));
 
         startNewGame.setOnAction(event -> controller.handleNewGame());
 
@@ -176,8 +173,8 @@ public class SudokuView extends BorderPane {
         MenuItem checkItem = new MenuItem("Check");
         MenuItem infoItem = new MenuItem("Info");
 
-        clearAllItem.setOnAction(event -> controller.handleClearAll());
-        checkItem.setOnAction(event -> showAlert(controller.handleCheck()));
+        clearAllItem.setOnAction(event -> controller.clearBoard());
+        checkItem.setOnAction(event -> showAlert(controller.checkBoard()));
         infoItem.setOnAction(event -> showAlert(controller.rules()));
 
         fileMenu.getItems().addAll(loadItem, saveItem, exitItem);
@@ -191,11 +188,12 @@ public class SudokuView extends BorderPane {
 
     private void addButtonEventHandlers() {
         for (int i = 0; i < 10; i++) {
-            buttons[i].setOnMouseClicked(event -> controller.handleNumberPicked(i));
+            int selectedNumber = i;
+            buttons[i].setOnAction(event -> controller.setNumberSelected(selectedNumber));
         }
 
-        checkButton.setOnAction(event -> showAlert(controller.handleCheck()));
-        hintButton.setOnAction(event -> controller.handleHint());
+        checkButton.setOnAction(event -> showAlert(controller.checkBoard()));
+        hintButton.setOnAction(event -> controller.hintRequested());
     }
 
     void showAlert(String message) {
