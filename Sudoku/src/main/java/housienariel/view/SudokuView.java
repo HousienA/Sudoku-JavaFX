@@ -2,20 +2,18 @@ package housienariel.view;
 
 import housienariel.model.SudokuModel;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-
-import java.util.Objects;
 
 public class SudokuView extends BorderPane {
 
@@ -136,10 +134,17 @@ public class SudokuView extends BorderPane {
         String[] buttonLabels = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "C"};
         for (int i = 0; i < buttonLabels.length; i++) {
             buttons[i] = new Button(buttonLabels[i]);
+            if (buttonLabels[i].equals("C")) {
+                buttons[i].setOnAction(event -> controller.clearBoard());
+            } else {
+                final int selectedNumber = Integer.parseInt(buttonLabels[i]);
+                buttons[i].setOnAction(event -> controller.setNumberSelected(selectedNumber));
+            }
             rightNumberButtons.getChildren().add(buttons[i]);
         }
         this.setRight(rightNumberButtons);
     }
+
 
     private void createMenu() {
         Menu fileMenu = new Menu("File");
