@@ -68,7 +68,7 @@ public class SudokuView extends BorderPane {
         Font font;
         for (int row = 0; row < GRID_SIZE; row++) {
             for (int col = 0; col < GRID_SIZE; col++) {
-                if (!board.getStartCell(row, col)) {
+                if (!board.isInitialValue(row, col)) {
                     font = Font.font("Monospaced", FontWeight.NORMAL, 20);
                     createClickableCell(row, col, font);
                 } else {
@@ -81,10 +81,10 @@ public class SudokuView extends BorderPane {
 
     private void createClickableCell(int row, int col, Font font) {
         Label cell;
-        if (Objects.equals(board.getCell(row, col), "0")) {
+        if (Objects.equals(board.getCellValue(row, col), "0")) {
             cell = new Label(" ");
         } else {
-            cell = new Label(board.getCell(row, col));
+            cell = new Label(board.getCellValue(row, col));
         }
 
         cell.setPrefWidth(40);
