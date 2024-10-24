@@ -16,6 +16,12 @@ public class SudokuController {
     private final FileChooser fileChooser;
     private SudokuUtilities.SudokuLevel currentLevel;
 
+
+    /**
+     * @param board The SudokuModel object
+     * @param view The SudokuView object
+     * New file object and default level is set to easy
+     */
     public SudokuController(SudokuModel board, SudokuView view) {
         this.myBoard = board;
         this.view = view;
@@ -23,6 +29,9 @@ public class SudokuController {
         this.currentLevel = SudokuUtilities.SudokuLevel.EASY;  // Default level
     }
 
+    /**
+     * @param level The level of the new game
+     */
     public void setNewGameDifficulty(int level) {
         switch (level) {
             case 1 -> currentLevel = SudokuUtilities.SudokuLevel.EASY;
@@ -35,6 +44,9 @@ public class SudokuController {
         view.updateBoard(myBoard);
     }
 
+    /**
+     * Save the current game to a file with .sudoku extension
+     */
     public void saveGame() {
         try {
             fileChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Downloads"));
@@ -49,6 +61,9 @@ public class SudokuController {
         }
     }
 
+    /**
+     * Load a game from a file with .sudoku extension
+     */
     public void loadGame() {
         try {
             fileChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Downloads"));
@@ -65,6 +80,9 @@ public class SudokuController {
         }
     }
 
+    /**
+     * Handle the new game button
+     */
     public void handleNewGame() {
         myBoard = new SudokuModel(currentLevel);
         view.updateBoard(myBoard);
@@ -74,6 +92,11 @@ public class SudokuController {
         this.numberSelected = number;
     }
 
+    /**
+     * @param row The row of the cell clicked
+     * @param col The column of the cell clicked
+     * Check if the move is valid and update the board
+     */
     public void cellClicked(int row, int col) {
         try {
             if (isMoveValid(row, col)) {
@@ -94,6 +117,9 @@ public class SudokuController {
         }
     }
 
+    /**
+     * @return A string with the result of the check
+     */
     public String checkBoard() {
         if (!myBoard.isSolved()) {
             if (isBoardCorrect()) return "Placement is correct so far.";
@@ -101,6 +127,9 @@ public class SudokuController {
         } else return "The puzzle is solved!";
     }
 
+    /**
+     * Provide a hint to the user once the hint button is clicked
+     */
     public void hintRequested() {
         if (!myBoard.isSolved()) {
             myBoard.provideHint();
@@ -109,15 +138,26 @@ public class SudokuController {
 
     }
 
+    /**
+     * Clear the board of all user-placed numbers
+     */
     public void clearBoard() {
         myBoard.clearGrid();
         view.updateBoard(myBoard);
     }
 
+    /**
+     * @param row The row of the cell
+     * @param col The column of the cell
+     * @return True if the move is valid, false otherwise
+     */
     private boolean isMoveValid(int row, int col) { return myBoard.isMoveValid(row, col); }
 
     private boolean isBoardCorrect() { return myBoard.isGridCorrect(); }
 
+    /**
+     * @return A string with the rules of the game
+     */
     public String rules() {
         return """
                 RULES:

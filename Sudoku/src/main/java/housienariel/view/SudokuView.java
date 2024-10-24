@@ -30,6 +30,10 @@ public class SudokuView extends BorderPane {
     private final Button[] buttons = new Button[10];
     private final SudokuController controller;
 
+    /**
+     * Constructor for the SudokuView class.
+     * @param board The SudokuModel object to be used.
+     */
     public SudokuView(SudokuModel board) {
         super(); // Creates BorderPane
         this.controller = new SudokuController(board, this);
@@ -40,7 +44,11 @@ public class SudokuView extends BorderPane {
         addButtonEventHandlers();
     }
 
-    // Updates a specific cell based on user interaction
+    /**
+     * Updates the board with the new value at the specified row and column.
+     * @param row The row of the cell to be updated.
+     * @param col The column of the cell to be updated.
+     */
     public void updateBoard(int row, int col) {
         Font font = Font.font("Monospaced", FontWeight.NORMAL, 20);
         createClickableCell(row, col, font);
@@ -48,13 +56,18 @@ public class SudokuView extends BorderPane {
         this.setCenter(numberPane);
     }
 
-    // Updates the entire board
+    /**
+     * Updates the board with the new SudokuModel object.
+     * @param board The new SudokuModel object.
+     */
     public void updateBoard(SudokuModel board) {
         this.board = board;
         gridSetup();
     }
 
-    // Creates the sudoku grid and handles initialization
+    /**
+     * Set the Sudoku grid.
+     */
     private void gridSetup() {
         cellGrid = new Label[GRID_SIZE][GRID_SIZE];
         createSudokuGrid();
@@ -62,6 +75,10 @@ public class SudokuView extends BorderPane {
         this.setCenter(numberPane);
     }
 
+    /**
+     * Create the Sudoku grid.
+     * The grid is a 9x9 grid with 3x3 sections.
+     */
     private void createSudokuGrid() {
         Font font;
         for (int row = 0; row < GRID_SIZE; row++) {
@@ -77,6 +94,12 @@ public class SudokuView extends BorderPane {
         }
     }
 
+    /**
+     * Create a clickable cell.
+     * @param row The row of the cell.
+     * @param col The column of the cell.
+     * @param font The font of the cell.
+     */
     private void createClickableCell(int row, int col, Font font) {
         Label cell;
         if (board.getCellValue(row, col) == 0) cell = new Label(" ");
@@ -93,6 +116,11 @@ public class SudokuView extends BorderPane {
         cellGrid[row][col] = cell;
     }
 
+    /**
+     * Create the number pane.
+     * The number pane is a 9x9 grid with 3x3 sections.
+     * @return The number pane.
+     */
     private TilePane makeNumberPane() {
         TilePane root = new TilePane();
         root.setPrefColumns(SECTIONS_PER_ROW);
@@ -119,6 +147,10 @@ public class SudokuView extends BorderPane {
         return root;
     }
 
+    /**
+     * Create the buttons.
+     * For Hint, Check and the number buttons.
+     */
     private void createButtons() {
         checkButton = new Button("Check");
         hintButton = new Button("Hint");
@@ -146,6 +178,9 @@ public class SudokuView extends BorderPane {
     }
 
 
+    /**
+     * Create the menu bar.
+     */
     private void createMenu() {
         Menu fileMenu = new Menu("File");
         Menu gameMenu = new Menu("Game");
@@ -189,6 +224,9 @@ public class SudokuView extends BorderPane {
         this.setTop(menuBar);
     }
 
+    /**
+     * Add event handlers to the buttons.
+     */
     private void addButtonEventHandlers() {
         for (int i = 0; i < 10; i++) {
             int selectedNumber = i;
@@ -199,6 +237,10 @@ public class SudokuView extends BorderPane {
         hintButton.setOnAction(event -> controller.hintRequested());
     }
 
+    /**
+     * Show an alert with the specified message.
+     * @param message The message to be shown.
+     */
     void showAlert(String message) {
         alert.setHeaderText("");
         alert.setTitle("Alert!");
