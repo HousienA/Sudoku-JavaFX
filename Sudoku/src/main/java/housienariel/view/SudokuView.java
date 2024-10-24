@@ -81,11 +81,9 @@ public class SudokuView extends BorderPane {
 
     private void createClickableCell(int row, int col, Font font) {
         Label cell;
-        if (Objects.equals(board.getCellValue(row, col), "0")) {
-            cell = new Label(" ");
-        } else {
-            cell = new Label(board.getCellValue(row, col));
-        }
+        if (Objects.equals(board.getCellValue(row, col), "0")) cell = new Label(" ");
+        else cell = new Label(board.getCellValue(row, col));
+
 
         cell.setPrefWidth(40);
         cell.setPrefHeight(40);
