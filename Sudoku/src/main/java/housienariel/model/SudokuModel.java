@@ -82,7 +82,9 @@ public class SudokuModel implements Serializable {
     public void clearGrid() {
         for(SudokuCell[] row : grid) {
             for(SudokuCell cell : row) {
-                cell.setCurrentValue(0);
+                if(!cell.isInitialValue()) {
+                    cell.setCurrentValue(0);
+                }
             }
         }
     }
@@ -125,7 +127,7 @@ public class SudokuModel implements Serializable {
     }
 
     public boolean isMoveValid(int row, int col) {
-        return grid[row][col].getCurrentValue() == 0;
+        return grid[row][col].isInitialValue() == false;
     }
 
 
