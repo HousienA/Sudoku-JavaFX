@@ -98,20 +98,16 @@ public class SudokuController {
      * Check if the move is valid and update the board
      */
     public void cellClicked(int row, int col) {
-        try {
-            if (isMoveValid(row, col)) {
-                if (numberSelected >= 0 && numberSelected < 9) {
-                    myBoard.setCellValue(row, col, numberSelected + 1);
-                    view.updateBoard(row, col);
-                }
-                if (numberSelected == 9) {
-                    myBoard.clearCell(row, col);
-                    view.updateBoard(row, col);
-                }
-            } else view.showAlert("Invalid Move");
-        } catch (IllegalStateException invalidMove) {
-            view.showAlert("Invalid Move");
-        }
+        if (isMoveValid(row, col)) {
+            if (numberSelected >= 0 && numberSelected < 9) {
+                myBoard.setCellValue(row, col, numberSelected + 1);
+                view.updateBoard(row, col);
+            }
+            if (numberSelected == 9) {
+                myBoard.clearCell(row, col);
+                view.updateBoard(row, col);
+            }
+        } else view.showAlert("Invalid Move");
         if (myBoard.isSolved()) {
             view.showAlert("Congratulations! You've solved the puzzle.");
         }

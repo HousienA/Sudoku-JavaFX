@@ -99,7 +99,7 @@ public class SudokuModel implements Serializable {
     }
 
     /**
-     * @param level
+     * @param level the difficulty of the game.
      */
     public void setLevel(SudokuUtilities.SudokuLevel level) {
         referenceCopy = SudokuUtilities.generateSudokuMatrix(level);
@@ -121,7 +121,6 @@ public class SudokuModel implements Serializable {
     /**
      * @param row the row of the cell.
      * @param col the column of the cell.
-     * @return the value of the cell as a string.
      */
     public void clearCell(int row, int col) { grid[row][col].setCurrentValue(0); }
 
